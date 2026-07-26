@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ConectBus — Transporte Inteligente para Estudantes | Campos dos Goytacazes</title>
+<meta name="description" content="ConectBus é o sistema de transporte exclusivo para estudantes e jovens aprendizes de Campos dos Goytacazes: rotas em tempo real, carteirinha digital com QR Code e muito mais segurança.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><rect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%237C3AED%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0" />
+<style>
+/* =========================================================
+   ConectBus — Design System
+   Transporte inteligente para estudantes | Campos dos Goytacazes
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+/* ---------- 1. Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body, h1, h2, h3, h4, h5, p, ul, figure { margin: 0; }
+ul { list-style: none; padding: 0; }
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+/* ---------- 2. Tokens ---------- */
+:root{
+  /* brand */
+  --violet-900:#2b0f63;
+  --violet-800:#3B0F91;
+  --violet-700:#5B21B6;
+  --violet-600:#6D28D9;
+  --violet-500:#7C3AED;
+  --violet-200:#DCD3F7;
+  --violet-100:#F1EBFF;
+  --blue-600:#1E5FD9;
+  --green-600:#17B26A;
+  --green-300:#7EE2AE;
+  --navy-900:#0B1330;
+
+  /* surface / ink (light) */
+  --bg:#FFFFFF;
+  --surface:#FFFFFF;
+  --surface-2:#F6F5FC;
+  --card-bg:#FFFFFF;
+  --border:#E8E4F7;
+  --ink:#171327;
+  --ink-soft:#5b6072;
+  --ink-faint:#9691AC;
+
+  /* type */
+  --font-display:'Space Grotesk', 'Inter', sans-serif;
+  --font-body:'Inter', system-ui, sans-serif;
+
+  /* fx */
+  --shadow-sm:0 2px 8px -2px rgba(23,19,39,.08);
+  --shadow-md:0 16px 40px -18px rgba(43,15,99,.35);
+  --radius-sm:8px;
+  --radius-md:14px;
+  --radius-lg:22px;
+  --header-h:64px;
+}
+
+[data-theme="dark"]{
+  --bg:#0B0A17;
+  --surface:#12101F;
+  --surface-2:#161328;
+  --card-bg:#161328;
+  --border:#2A2545;
+  --ink:#F3F1FA;
+  --ink-soft:#B6B1CC;
+  --ink-faint:#7A7594;
+  --shadow-md:0 16px 40px -18px rgba(0,0,0,.6);
+}
+
+/* ---------- 3. Base ---------- */
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--ink);
+  font-size:16px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  transition:background .2s ease, color .2s ease;
+}
+
+h1,h2,h3,h4{ font-family:var(--font-display); color:var(--ink); line-height:1.15; letter-spacing:-.01em; }
+h2{ font-size:clamp(1.6rem,3vw,2.3rem); font-weight:700; }
+h3{ font-size:1.05rem; font-weight:700; }
+
+.container{ width:100%; max-width:1180px; margin-inline:auto; padding-inline:24px; }
+
+/* focus visibility */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible{
+  outline:2px solid var(--violet-500); outline-offset:2px; border-radius:4px;
+}
+
+/* ---------- 4. Buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:12px 22px; border-radius:12px; font-weight:600; font-size:.92rem;
+  border:1.5px solid transparent; transition:transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+  white-space:nowrap;
+}
+.btn .material-symbols-rounded{ font-size:19px; }
+.btn-primary{ background:linear-gradient(135deg,var(--violet-500),var(--violet-700)); color:#fff; box-shadow:0 12px 26px -12px rgba(124,58,237,.6); }
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 18px 32px -12px rgba(124,58,237,.7); }
+.btn-ghost{ background:transparent; color:var(--ink); border-color:var(--border); }
+.btn-ghost:hover{ background:var(--surface-2); }
+.btn-outline{ background:transparent; color:var(--violet-600); border-color:var(--violet-200); }
+.btn-outline:hover{ background:var(--violet-100); }
+.btn-sm{ padding:8px 16px; font-size:.85rem; }
+.btn-block{ width:100%; }
+
+/* ---------- 5. Header ---------- */
+.site-header{
+  position:sticky; top:0; z-index:50; background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--border);
+}
+.nav{ display:flex; align-items:center; justify-content:space-between; height:var(--header-h); gap:24px; }
+.brand{ display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:700; font-size:1.15rem; }
+.mark{
+  width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,var(--blue-600),var(--violet-600)); color:#fff; flex-shrink:0;
+}
+.mark svg{ width:20px; height:20px; }
+
+.nav-links{ display:flex; align-items:center; gap:26px; font-size:.92rem; font-weight:500; }
+.nav-links a{ color:var(--ink-soft); transition:color .15s ease; position:relative; }
+.nav-links a:hover{ color:var(--ink); }
+
+.nav-actions{ display:flex; align-items:center; gap:10px; }
+.icon-btn{
+  display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px;
+  border-radius:10px; border:1px solid var(--border); background:var(--surface); color:var(--ink-soft);
+  transition:background .15s ease, color .15s ease;
+}
+.icon-btn:hover{ background:var(--surface-2); color:var(--ink); }
+.nav-toggle{ display:none; }
+
+@media (max-width:900px){
+  .nav-links{
+    position:fixed; inset:var(--header-h) 0 auto 0; flex-direction:column; align-items:flex-start;
+    background:var(--surface); border-bottom:1px solid var(--border); padding:20px 24px; gap:16px;
+    transform:translateY(-8px); opacity:0; visibility:hidden; transition:all .18s ease; box-shadow:var(--shadow-md);
+  }
+  .nav-links.open{ transform:translateY(0); opacity:1; visibility:visible; }
+  .nav-toggle{ display:inline-flex; }
+}
+
+/* ---------- 6. Hero ---------- */
+.hero{ padding:64px 0 32px; background:linear-gradient(180deg,var(--surface-2),var(--bg) 70%); }
+.hero-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:center; }
+.eyebrow{
+  display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:99px;
+  background:var(--violet-100); color:var(--violet-700); font-size:.78rem; font-weight:700;
+  letter-spacing:.02em; text-transform:uppercase; margin-bottom:18px; border:1px solid var(--violet-200);
+}
+.hero-copy h1{ font-size:clamp(2.1rem,4.4vw,3.4rem); margin-bottom:18px; }
+.hero-copy .accent{ background:linear-gradient(135deg,var(--blue-600),var(--violet-500)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.hero-copy > p{ color:var(--ink-soft); font-size:1.05rem; max-width:520px; margin-bottom:28px; line-height:1.7; }
+.hero-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-bottom:40px; }
+.hero-stats{ display:flex; gap:36px; flex-wrap:wrap; }
+.hero-stats strong{ display:block; font-family:var(--font-display); font-size:1.7rem; color:var(--violet-600); }
+.hero-stats span{ color:var(--ink-soft); font-size:.85rem; }
+
+.hero-visual{ position:relative; display:flex; justify-content:center; }
+.hero-card{ position:relative; width:100%; max-width:460px; }
+.bus-illustration{ width:100%; filter:drop-shadow(0 24px 40px rgba(43,15,99,.28)); }
+.floating-chip{
+  position:absolute; display:flex; align-items:center; gap:6px; background:var(--surface); color:var(--ink);
+  padding:9px 14px; border-radius:99px; font-size:.8rem; font-weight:600; box-shadow:var(--shadow-md);
+  border:1px solid var(--border);
+}
+.floating-chip .material-symbols-rounded{ font-size:16px; color:var(--violet-600); }
+.chip-eta{ top:-4px; right:6%; animation:float 4s ease-in-out infinite; }
+.chip-qr{ bottom:6%; left:0; animation:float 4.5s ease-in-out infinite .5s; }
+@keyframes float{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-8px);} }
+
+.route-ticker{ overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-top:24px; }
+.route-ticker .track{
+  display:flex; gap:48px; white-space:nowrap; padding:12px 0; width:max-content;
+  font-size:.78rem; font-weight:700; letter-spacing:.03em; color:var(--violet-600);
+  animation:ticker 26s linear infinite;
+}
+@keyframes ticker{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+
+@media (max-width:900px){
+  .hero-grid{ grid-template-columns:1fr; }
+  .hero-visual{ order:-1; }
+}
+
+/* ---------- 7. Sections ---------- */
+.section{ padding:88px 0; }
+.section-head{ max-width:640px; margin-bottom:44px; }
+.section-head.center{ text-align:center; max-width:620px; }
+.section-head p{ color:var(--ink-soft); margin-top:12px; font-size:1rem; line-height:1.7; }
+
+.grid{ display:grid; gap:22px; }
+.grid-3{ grid-template-columns:repeat(3,1fr); }
+@media (max-width:860px){ .grid-3{ grid-template-columns:1fr 1fr; } }
+@media (max-width:600px){ .grid-3{ grid-template-columns:1fr; } }
+
+.card{
+  background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius-md);
+  padding:26px; transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-md); border-color:var(--violet-200); }
+.icon-tile{
+  width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  background:var(--violet-100); color:var(--violet-600); margin-bottom:16px;
+}
+[data-theme="dark"] .icon-tile{ background:rgba(124,58,237,.18); }
+.feature-card h3{ margin-bottom:8px; }
+.feature-card p{ color:var(--ink-soft); font-size:.92rem; line-height:1.6; }
+.benefit-card .material-symbols-rounded{ font-size:26px; color:var(--violet-600); }
+
+/* ---------- 8. Mapa ---------- */
+.map-shell{
+  display:grid; grid-template-columns:240px 1fr; border:1px solid var(--border); border-radius:var(--radius-lg);
+  overflow:hidden; position:relative; background:var(--surface);
+}
+.map-panel{ padding:26px 22px; border-right:1px solid var(--border); background:var(--card-bg); }
+.map-panel h4{ font-family:var(--font-display); font-size:.95rem; margin-bottom:14px; }
+.map-legend li{ display:flex; align-items:center; gap:10px; font-size:.85rem; color:var(--ink-soft); margin-bottom:10px; }
+.map-legend .swatch{ width:11px; height:11px; border-radius:99px; flex-shrink:0; }
+#liveMap{ min-height:420px; width:100%; background:var(--surface-2); }
+.map-eta-badge{
+  position:absolute; right:20px; bottom:20px; z-index:400; display:flex; align-items:center; gap:10px;
+  background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:12px 16px; box-shadow:var(--shadow-md);
+}
+.map-eta-badge strong{ font-family:var(--font-display); font-size:1.05rem; }
+@media (max-width:760px){ .map-shell{ grid-template-columns:1fr; } .map-panel{ border-right:none; border-bottom:1px solid var(--border); } }
+
+/* ---------- 9. Sobre / Stats ---------- */
+.rail-divider{ display:flex; justify-content:center; margin:56px 0; }
+.rail-divider .dot{ width:8px; height:8px; border-radius:99px; background:var(--violet-500); }
+
+.stats-panel{
+  display:grid; grid-template-columns:.9fr 1.1fr; gap:40px; align-items:center;
+  background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-lg); padding:36px;
+}
+.stat-list{ display:flex; flex-direction:column; gap:26px; }
+.stat-list strong{ display:block; font-family:var(--font-display); font-size:2.1rem; color:var(--violet-600); }
+.stat-list span{ color:var(--ink-soft); font-size:.9rem; }
+@media (max-width:760px){ .stats-panel{ grid-template-columns:1fr; } }
+
+/* ---------- 10. FAQ ---------- */
+.faq-item{ border-bottom:1px solid var(--border); }
+.faq-q{
+  width:100%; display:flex; align-items:center; justify-content:space-between; text-align:left;
+  background:none; border:none; padding:18px 4px; font-weight:600; font-size:.98rem; color:var(--ink);
+}
+.faq-q .material-symbols-rounded{ transition:transform .2s ease; color:var(--violet-600); }
+.faq-item.open .faq-q .material-symbols-rounded{ transform:rotate(45deg); }
+.faq-a{ max-height:0; overflow:hidden; transition:max-height .25s ease; }
+.faq-a p{ color:var(--ink-soft); font-size:.92rem; line-height:1.7; padding:0 4px 18px; }
+
+/* ---------- 11. Contato ---------- */
+.contact-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:44px; }
+.contact-grid form{ display:flex; flex-direction:column; }
+.field{ margin-bottom:16px; }
+.field label{ display:block; font-weight:600; font-size:.86rem; margin-bottom:6px; }
+.field input, .field select, .field textarea{
+  width:100%; border:1.5px solid var(--border); background:var(--surface-2); border-radius:10px;
+  padding:11px 14px; font-size:.94rem; color:var(--ink); transition:border-color .15s, box-shadow .15s;
+}
+.field textarea{ min-height:110px; resize:vertical; }
+.field input:focus, .field select:focus, .field textarea:focus{
+  outline:none; border-color:var(--violet-500); box-shadow:0 0 0 3px rgba(124,58,237,.15);
+}
+.form-success{
+  display:none; align-items:center; gap:8px; margin-top:14px; background:var(--violet-100); color:var(--violet-800);
+  border:1px solid var(--violet-200); border-radius:10px; padding:12px 14px; font-size:.88rem;
+}
+.form-success.show{ display:flex; }
+
+.contact-info-item{ display:flex; gap:14px; margin-bottom:22px; }
+.contact-info-item strong{ font-size:.94rem; }
+.social-row{ display:flex; gap:10px; margin-top:8px; }
+@media (max-width:820px){ .contact-grid{ grid-template-columns:1fr; } }
+
+/* ---------- 12. Footer ---------- */
+.site-footer{ background:var(--navy-900); color:#D9D6EC; padding:56px 0 0; margin-top:40px; }
+.footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:32px; padding-bottom:36px; }
+.footer-brand{ display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:700; font-size:1.1rem; color:#fff; margin-bottom:12px; }
+.footer-grid h5{ color:#fff; font-size:.85rem; text-transform:uppercase; letter-spacing:.04em; margin-bottom:14px; }
+.footer-grid ul li{ margin-bottom:10px; }
+.footer-grid a{ color:#B8B4D6; font-size:.88rem; transition:color .15s ease; }
+.footer-grid a:hover{ color:#fff; }
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.1); padding:18px 0; display:flex; justify-content:space-between;
+  flex-wrap:wrap; gap:8px; font-size:.78rem; color:#9490B8;
+}
+@media (max-width:760px){ .footer-grid{ grid-template-columns:1fr 1fr; } }
+@media (max-width:480px){ .footer-grid{ grid-template-columns:1fr; } }
+
+/* ---------- 13. Back to top ---------- */
+.back-to-top{
+  position:fixed; right:22px; bottom:22px; width:44px; height:44px; border-radius:99px; z-index:60;
+  background:var(--violet-600); color:#fff; border:none; display:flex; align-items:center; justify-content:center;
+  box-shadow:var(--shadow-md); opacity:0; visibility:hidden; transform:translateY(10px);
+  transition:opacity .2s ease, transform .2s ease, visibility .2s ease;
+}
+.back-to-top.show{ opacity:1; visibility:visible; transform:translateY(0); }
+
+/* ---------- 14. Reveal on scroll ---------- */
+.reveal{ opacity:0; transform:translateY(18px); transition:opacity .5s ease, transform .5s ease; }
+.reveal.in-view{ opacity:1; transform:translateY(0); }
+.reveal-stagger.in-view .card{ animation:rise .5s ease both; animation-delay:calc(var(--i,0) * 80ms); }
+@keyframes rise{ from{ opacity:0; transform:translateY(14px);} to{ opacity:1; transform:translateY(0);} }
+
+</style>
+<style>
+  /* ===== Barra institucional estilo gov.br ===== */
+  .gov-bar{background:#0B1330;color:#e8e6f3;font-size:.78rem}
+  .gov-bar .container{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px 24px}
+  .gov-bar-left{display:flex;align-items:center;gap:8px;font-weight:600;letter-spacing:.02em}
+  .gov-bar-left .material-symbols-rounded{font-size:16px;color:#7EE2AE}
+  .gov-bar-links{display:flex;align-items:center;gap:18px}
+  .gov-bar-links a{color:#e8e6f3;text-decoration:none;opacity:.85;transition:opacity .15s}
+  .gov-bar-links a:hover{opacity:1;text-decoration:underline}
+  .gov-bar-links button{background:none;border:1px solid rgba(255,255,255,.3);color:#e8e6f3;border-radius:6px;padding:2px 10px;font-size:.75rem;cursor:pointer;display:flex;align-items:center;gap:4px}
+  .gov-bar-links button:hover{background:rgba(255,255,255,.1)}
+  @media (max-width:720px){.gov-bar .container{flex-wrap:wrap;padding:6px 16px}.gov-bar-links{gap:10px}}
+
+  /* ===== Seção Cadastro (formulário roxo) ===== */
+  .cadastro-section{background:linear-gradient(135deg,#2b0f63 0%,#5B21B6 45%,#7C3AED 100%);position:relative;overflow:hidden}
+  .cadastro-section::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 20%,rgba(255,255,255,.12),transparent 55%),radial-gradient(circle at 85% 80%,rgba(255,255,255,.10),transparent 50%);pointer-events:none}
+  .cadastro-section .section-head .eyebrow{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25)}
+  .cadastro-section .section-head h2,.cadastro-section .section-head p{color:#fff}
+  .cadastro-section .section-head p{color:rgba(255,255,255,.85)}
+  .cadastro-card{position:relative;max-width:640px;margin:0 auto;background:rgba(255,255,255,.97);border-radius:22px;padding:36px 34px;box-shadow:0 30px 60px -20px rgba(43,15,99,.55);border:1px solid rgba(255,255,255,.4)}
+  .cadastro-card .field{margin-bottom:18px}
+  .cadastro-card label{display:block;font-weight:600;font-size:.88rem;color:#3B0F91;margin-bottom:6px}
+  .cadastro-card input,.cadastro-card select{width:100%;border:1.5px solid #DCD3F7;background:#FAF8FF;border-radius:10px;padding:11px 14px;font-size:.95rem;color:#1B1030;transition:border-color .15s,box-shadow .15s}
+  .cadastro-card input:focus,.cadastro-card select:focus{outline:none;border-color:#7C3AED;box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+  .cadastro-card .radio-group{display:flex;gap:12px;flex-wrap:wrap}
+  .cadastro-card .radio-option{flex:1;min-width:150px;position:relative}
+  .cadastro-card .radio-option input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer;margin:0}
+  .cadastro-card .radio-option span{display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid #DCD3F7;background:#FAF8FF;border-radius:10px;padding:11px 10px;font-size:.88rem;font-weight:600;color:#5B21B6;text-align:center}
+  .cadastro-card .radio-option input:checked + span{background:#7C3AED;border-color:#7C3AED;color:#fff}
+  .cadastro-card .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media (max-width:560px){.cadastro-card{padding:26px 20px}.cadastro-card .form-row{grid-template-columns:1fr}}
+  .cadastro-card .btn-roxo{width:100%;background:linear-gradient(135deg,#7C3AED,#5B21B6);color:#fff;border:none;border-radius:12px;padding:14px 18px;font-weight:700;font-size:.96rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s,box-shadow .15s}
+  .cadastro-card .btn-roxo:hover{transform:translateY(-2px);box-shadow:0 14px 28px -10px rgba(124,58,237,.55)}
+  .cadastro-card .form-success{display:none;margin-top:16px;background:#F1EBFF;color:#3B0F91;border:1px solid #D9C9FA;border-radius:10px;padding:12px 14px;font-size:.88rem;align-items:center;gap:8px}
+  .cadastro-card .form-success.show{display:flex}
+  .cadastro-card .form-note{display:flex;gap:8px;align-items:flex-start;background:#F1EBFF;border-radius:10px;padding:10px 12px;font-size:.78rem;color:#5B21B6;margin-bottom:22px}
+  .cadastro-card .form-note .material-symbols-rounded{font-size:18px}
+
+  /* ===== Sobre o Projeto ===== */
+  .about-text{max-width:900px;margin:0 auto 56px}
+  .about-text h2{font-size:clamp(1.5rem,2.4vw,2rem);margin-bottom:18px}
+  .about-text p{color:var(--ink-soft,#5b6072);font-size:1rem;line-height:1.75;margin-bottom:16px}
+  .about-text p:last-child{margin-bottom:0}
+</style>
+</head>
+<body>
+
+<!-- ===================== BARRA INSTITUCIONAL (estilo gov.br) ===================== -->
+<div class="gov-bar">
+  <div class="container">
+    <div class="gov-bar-left">
+      <span class="material-symbols-rounded">account_balance</span>
+      Prefeitura Municipal de Campos dos Goytacazes
+    </div>
+    <div class="gov-bar-links">
+      <a href="#" target="_blank" rel="noopener">Portal da Prefeitura</a>
+      <a href="#" target="_blank" rel="noopener">Portal da Transparência</a>
+      <button type="button" aria-label="Aumentar contraste">
+        <span class="material-symbols-rounded" style="font-size:14px">contrast</span> Alto contraste
+      </button>
+      <button type="button" aria-label="Acessibilidade">
+        <span class="material-symbols-rounded" style="font-size:14px">accessibility_new</span> Acessibilidade
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header">
+  <div class="container nav">
+    <a href="index.html" class="brand">
+      <span class="mark">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 16V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 16h16v2a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H7v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="8" cy="19.5" r="1.4" fill="currentColor"/><circle cx="16" cy="19.5" r="1.4" fill="currentColor"/><path d="M4 11h16" stroke="currentColor" stroke-width="2"/></svg>
+      </span>
+      ConectBus
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html#funcionalidades">Funcionalidades</a>
+      <a href="index.html#mapa">Mapa</a>
+      <a href="https://www.google.com/maps/search/escolas+em+Campos+dos+Goytacazes+RJ" target="_blank" rel="noopener">Rotas</a>
+      <a href="index.html#cadastro">Cadastro</a>
+      <a href="app.html">Aplicativo</a>
+      <a href="seguranca.html">Segurança</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="index.html#contato">Contato</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="icon-btn theme-toggle" aria-label="Alternar tema claro/escuro">
+        <span class="material-symbols-rounded">dark_mode</span>
+      </button>
+      <a href="login.html" class="btn btn-outline btn-sm">
+        <span class="material-symbols-rounded">person</span> Entrar
+      </a>
+      <button class="icon-btn nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+        <span class="material-symbols-rounded">menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="material-symbols-rounded" style="font-size:16px">bolt</span> Prefeitura de Campos dos Goytacazes</span>
+      <h1>ConectBus<br>Transporte inteligente<br><span class="accent">para estudantes.</span></h1>
+      <p>Mais segurança, organização e tecnologia para o transporte escolar. Rastreamento em tempo real, embarque com QR Code e rotas pensadas para estudantes e jovens aprendizes.</p>
+      <div class="hero-actions">
+        <a href="https://www.google.com/maps/search/escolas+em+Campos+dos+Goytacazes+RJ" target="_blank" rel="noopener" class="btn btn-primary">
+          <span class="material-symbols-rounded">alt_route</span> Ver rotas
+        </a>
+        <a href="app.html" class="btn btn-ghost" onclick="alert('O aplicativo será lançado em breve'); return false;" title="O aplicativo será lançado em breve">
+          <span class="material-symbols-rounded">download</span> Baixar app
+        </a>
+        <a href="#sobre" class="btn btn-ghost">
+          <span class="material-symbols-rounded">info</span> Conheça o projeto
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div><strong data-count="18" data-suffix="">18</strong><span>Linhas ativas</span></div>
+        <div><strong data-count="42" data-suffix="">42</strong><span>Escolas atendidas</span></div>
+        <div><strong data-count="6300" data-suffix="+">6300+</strong><span>Estudantes conectados</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-card">
+        <svg class="bus-illustration" viewBox="0 0 480 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="18" y="60" width="380" height="150" rx="26" fill="url(#busBody)"/>
+          <rect x="18" y="60" width="380" height="46" rx="20" fill="#ffffff" fill-opacity=".14"/>
+          <rect x="46" y="86" width="58" height="46" rx="10" fill="#0B2A5B" fill-opacity=".55"/>
+          <rect x="118" y="86" width="58" height="46" rx="10" fill="#0B2A5B" fill-opacity=".55"/>
+          <rect x="190" y="86" width="58" height="46" rx="10" fill="#0B2A5B" fill-opacity=".55"/>
+          <rect x="262" y="86" width="58" height="46" rx="10" fill="#0B2A5B" fill-opacity=".55"/>
+          <rect x="334" y="86" width="42" height="46" rx="10" fill="#7EE2AE" fill-opacity=".85"/>
+          <rect x="18" y="150" width="380" height="60" rx="14" fill="#0B1330" fill-opacity=".35"/>
+          <text x="36" y="188" font-family="Space Grotesk, sans-serif" font-size="26" font-weight="700" fill="#ffffff">ConectBus</text>
+          <circle cx="110" cy="228" r="26" fill="#0B1330"/>
+          <circle cx="110" cy="228" r="12" fill="#C4A9F7"/>
+          <circle cx="330" cy="228" r="26" fill="#0B1330"/>
+          <circle cx="330" cy="228" r="12" fill="#C4A9F7"/>
+          <rect x="398" y="118" width="46" height="60" rx="10" fill="#7C3AED" fill-opacity=".6"/>
+          <defs>
+            <linearGradient id="busBody" x1="18" y1="60" x2="398" y2="210" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#1E5FD9"/><stop offset="1" stop-color="#7C3AED"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="floating-chip chip-eta"><span class="material-symbols-rounded">near_me</span> Chegando em 4 min</div>
+        <div class="floating-chip chip-qr"><span class="material-symbols-rounded">qr_code_2</span> Embarque validado</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="route-ticker">
+      <div class="track">
+        <span>◆ LINHA 01 — CENTRO / GUARUS</span>
+        <span>◆ LINHA 02 — PARQUE PRAZERES</span>
+        <span>◆ LINHA 03 — TAPERA / IFF CAMPOS</span>
+        <span>◆ LINHA 04 — GOITACAZES / UENF</span>
+        <span>◆ LINHA 05 — FAROL DE SÃO THOMÉ</span>
+        <span>◆ LINHA 06 — TURF CLUB</span>
+        <span>◆ LINHA 01 — CENTRO / GUARUS</span>
+        <span>◆ LINHA 02 — PARQUE PRAZERES</span>
+        <span>◆ LINHA 03 — TAPERA / IFF CAMPOS</span>
+        <span>◆ LINHA 04 — GOITACAZES / UENF</span>
+        <span>◆ LINHA 05 — FAROL DE SÃO THOMÉ</span>
+        <span>◆ LINHA 06 — TURF CLUB</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CADASTRO / QUESTIONÁRIO ===================== -->
+<section class="section cadastro-section" id="cadastro">
+  <div class="container">
+    <div class="section-head center reveal" style="margin-inline:auto;position:relative">
+      <span class="eyebrow"><span class="material-symbols-rounded" style="font-size:16px">badge</span> Cadastro do estudante</span>
+      <h2>Faça parte do ConectBus.</h2>
+      <p>Preencha o questionário abaixo para solicitar sua carteirinha digital e liberar o acesso às linhas do transporte escolar.</p>
+    </div>
+
+    <div class="cadastro-card reveal">
+      <div class="form-note">
+        <span class="material-symbols-rounded">lock</span>
+        Seus dados são protegidos e utilizados exclusivamente para validação junto à Prefeitura, conforme a LGPD.
+      </div>
+
+      <form id="cadastroForm">
+        <div class="field">
+          <label for="cad-nome">Nome completo</label>
+          <input id="cad-nome" type="text" placeholder="Digite seu nome completo" required>
+        </div>
+
+        <div class="field">
+          <label>Você é</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="perfil" value="estudante" checked>
+              <span><span class="material-symbols-rounded" style="font-size:18px">school</span> Estudante</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="perfil" value="jovem-aprendiz">
+              <span><span class="material-symbols-rounded" style="font-size:18px">work</span> Jovem aprendiz</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="cad-idade">Idade</label>
+            <input id="cad-idade" type="number" min="10" max="29" placeholder="Ex: 16" required>
+          </div>
+          <div class="field">
+            <label for="cad-doc">CPF ou nº de matrícula</label>
+            <input id="cad-doc" type="text" placeholder="CPF ou matrícula" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="cad-escola">Escola em que estuda</label>
+          <select id="cad-escola" required>
+            <option value="" selected disabled>Selecione sua escola</option>
+            <option>IFF Campos</option>
+            <option>UENF</option>
+            <option>Colégio Estadual Nilo Peçanha</option>
+            <option>Colégio Estadual Dr. Sandoval de Azevedo</option>
+            <option>Escola Municipal do Centro</option>
+            <option>Escola Municipal de Guarus</option>
+            <option>Escola Municipal do Parque Prazeres</option>
+            <option>Escola Municipal do Farol de São Thomé</option>
+            <option>Escola Municipal do Turf Club</option>
+            <option>Outra</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-roxo">
+          <span class="material-symbols-rounded">how_to_reg</span> Enviar cadastro
+        </button>
+        <div class="form-success" id="cadastroSuccess">
+          <span class="material-symbols-rounded">check_circle</span> Cadastro enviado! Em breve você receberá sua carteirinha digital.
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FUNCIONALIDADES ===================== -->
+<section class="section" id="funcionalidades">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Funcionalidades</span>
+      <h2>Tudo o que o transporte escolar precisava ter.</h2>
+      <p>O ConectBus une frota exclusiva, tecnologia embarcada e um aplicativo pensado para dar tranquilidade a estudantes, escolas e famílias.</p>
+    </div>
+
+    <div class="grid grid-3 reveal-stagger reveal">
+      <div class="card feature-card" style="--i:0">
+        <div class="icon-tile"><span class="material-symbols-rounded">directions_bus</span></div>
+        <h3>Ônibus exclusivos</h3>
+        <p>Frota dedicada exclusivamente a estudantes e jovens aprendizes, com veículos vistoriados e identificados.</p>
+      </div>
+      <div class="card feature-card" style="--i:1">
+        <div class="icon-tile"><span class="material-symbols-rounded">qr_code_2</span></div>
+        <h3>Carteirinha digital</h3>
+        <p>Embarque validado por QR Code direto no aplicativo, sem filas, sem papel e sem risco de perda.</p>
+      </div>
+      <div class="card feature-card" style="--i:2">
+        <div class="icon-tile"><span class="material-symbols-rounded">location_on</span></div>
+        <h3>Localização em tempo real</h3>
+        <p>Acompanhe o ônibus no mapa e saiba exatamente quando ele vai chegar ao seu ponto.</p>
+      </div>
+      <div class="card feature-card" style="--i:3">
+        <div class="icon-tile"><span class="material-symbols-rounded">schedule</span></div>
+        <h3>Rotas e horários</h3>
+        <p>Consulte linhas, escolas atendidas, horários de saída e vagas disponíveis em segundos.</p>
+      </div>
+      <div class="card feature-card" style="--i:4">
+        <div class="icon-tile"><span class="material-symbols-rounded">notifications_active</span></div>
+        <h3>Avisos em tempo real</h3>
+        <p>Notificações automáticas sobre atrasos, mudanças de itinerário e ocorrências na linha.</p>
+      </div>
+      <div class="card feature-card" style="--i:5">
+        <div class="icon-tile"><span class="material-symbols-rounded">shield</span></div>
+        <h3>Segurança reforçada</h3>
+        <p>Câmeras, monitor a bordo, GPS 24h e botão de emergência em todos os veículos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MAPA INTERATIVO ===================== -->
+<section class="section" id="mapa" style="background:var(--surface-2)">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Mapa interativo</span>
+      <h2>Veja o ônibus se movendo, em tempo real.</h2>
+      <p>Simulação ao vivo das linhas, pontos de embarque e tempo estimado de chegada em Campos dos Goytacazes.</p>
+    </div>
+
+    <div class="map-shell reveal">
+      <div class="map-panel">
+        <h4>Linhas em operação</h4>
+        <ul class="map-legend">
+          <li><span class="swatch" style="background:#1E5FD9"></span> Linha 01 — Centro/Guarus</li>
+          <li><span class="swatch" style="background:#7C3AED"></span> Linha 02 — Parque Prazeres</li>
+          <li><span class="swatch" style="background:#17B26A"></span> Linha 03 — Tapera/IFF</li>
+        </ul>
+      </div>
+      <div id="liveMap"></div>
+      <div class="map-eta-badge">
+        <span class="material-symbols-rounded" style="color:var(--green-600)">timer</span>
+        <div>
+          <div style="font-size:.75rem;color:var(--ink-soft)">Próxima chegada</div>
+          <strong id="etaValue">4 min</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SOBRE / BENEFÍCIOS ===================== -->
+<section class="section" id="sobre">
+  <div class="container">
+    <div class="about-text reveal">
+      <span class="eyebrow">Sobre o projeto</span>
+      <h2>Sobre o Projeto ConectBus</h2>
+      <p>O ConectBus é uma proposta de sistema inteligente de transporte voltado para estudantes e jovens aprendizes do município de Campos dos Goytacazes. O projeto foi idealizado para tornar o deslocamento diário mais seguro, organizado e eficiente, utilizando tecnologia para facilitar o acesso ao transporte escolar.</p>
+      <p>A plataforma reúne, em um único ambiente, informações sobre rotas, horários, pontos de embarque e localização dos ônibus em tempo real. Além disso, os estudantes podem utilizar uma carteirinha digital com QR Code, garantindo um processo de embarque mais rápido, seguro e controlado.</p>
+      <p>O ConectBus também oferece recursos como notificações sobre atrasos, alterações de itinerário e comunicados importantes, permitindo que estudantes, pais e responsáveis acompanhem o funcionamento do transporte de forma prática e transparente.</p>
+      <p>Entre os principais diferenciais do projeto estão o monitoramento por GPS, o reforço na segurança dos passageiros, a organização das linhas de transporte e a redução da superlotação dos veículos. O sistema foi concebido para proporcionar mais tranquilidade às famílias e maior eficiência na gestão do transporte estudantil.</p>
+      <p>Mais do que um sistema de transporte, o ConectBus representa uma iniciativa voltada à inovação e à mobilidade urbana, utilizando soluções tecnológicas para melhorar a experiência dos estudantes e contribuir para um serviço público mais moderno, acessível e sustentável.</p>
+    </div>
+
+    <div class="section-head reveal">
+      <span class="eyebrow">Benefícios</span>
+      <h2>Um sistema pensado para toda a comunidade escolar.</h2>
+      <p>Resultados concretos para estudantes, motoristas, escolas e famílias de Campos dos Goytacazes.</p>
+    </div>
+
+    <div class="grid grid-3 reveal-stagger reveal">
+      <div class="card benefit-card" style="--i:0"><span class="material-symbols-rounded">verified_user</span><h3 style="margin-top:14px;font-size:1.05rem">Mais segurança</h3><p style="color:var(--ink-soft);font-size:.9rem;margin-top:8px">Embarque controlado e monitoramento constante em toda a rota.</p></div>
+      <div class="card benefit-card" style="--i:1"><span class="material-symbols-rounded">av_timer</span><h3 style="margin-top:14px;font-size:1.05rem">Menos atrasos</h3><p style="color:var(--ink-soft);font-size:.9rem;margin-top:8px">Rotas otimizadas e avisos automáticos evitam surpresas.</p></div>
+      <div class="card benefit-card" style="--i:2"><span class="material-symbols-rounded">route</span><h3 style="margin-top:14px;font-size:1.05rem">Transporte organizado</h3><p style="color:var(--ink-soft);font-size:.9rem;margin-top:8px">Pontos oficiais, horários fixos e vagas controladas por linha.</p></div>
+      <div class="card benefit-card" style="--i:3"><span class="material-symbols-rounded">groups</span><h3 style="margin-top:14px;font-size:1.05rem">Menos superlotação</h3><p style="color:var(--ink-soft);font-size:.9rem;margin-top:8px">Controle de vagas em tempo real evita ônibus lotados.</p></div>
+      <div class="card benefit-card" style="--i:4"><span class="material-symbols-rounded">favorite</span><h3 style="margin-top:14px;font-size:1.05rem">Tranquilidade para a família</h3><p style="color:var(--ink-soft);font-size:.9rem;margin-top:8px">Acompanhamento do trajeto do início ao fim, direto pelo app.</p></div>
+      <div class="card benefit-card" style="--i:5"><span class="material-symbols-rounded">eco</span><h3 style="margin-top:14px;font-size:1.05rem">Sustentabilidade</h3><p style="color:var(--ink-soft);font-size:.9rem;margin-top:8px">Menos veículos particulares nas ruas ao redor das escolas.</p></div>
+    </div>
+
+    <div class="rail-divider reveal"><span class="dot"></span></div>
+
+    <div class="stats-panel reveal">
+      <div class="stat-list">
+        <div><strong data-count="6300" data-suffix="+">0</strong><span>Estudantes atendidos por mês</span></div>
+        <div><strong data-count="98" data-suffix="%">0</strong><span>Índice de pontualidade</span></div>
+        <div><strong data-count="42" data-suffix="">0</strong><span>Escolas conectadas na rede</span></div>
+      </div>
+      <div>
+        <canvas id="studentsChart" height="220"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section class="section" id="faq" style="background:var(--surface-2)">
+  <div class="container">
+    <div class="section-head center reveal" style="margin-inline:auto">
+      <span class="eyebrow">Perguntas frequentes</span>
+      <h2>Ainda com dúvidas?</h2>
+      <p>Reunimos as perguntas mais comuns sobre o ConectBus.</p>
+    </div>
+
+    <div style="max-width:760px;margin-inline:auto" class="reveal">
+      <div class="faq-item">
+        <button class="faq-q">Quem pode utilizar o ConectBus? <span class="material-symbols-rounded">add</span></button>
+        <div class="faq-a"><p>O sistema é exclusivo para estudantes regularmente matriculados na rede pública e jovens aprendizes cadastrados junto à Prefeitura de Campos dos Goytacazes.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Como funciona o QR Code de embarque? <span class="material-symbols-rounded">add</span></button>
+        <div class="faq-a"><p>Cada estudante possui uma carteirinha digital com QR Code único. Ao entrar no ônibus, basta apresentar o código para o monitor validar o embarque pelo aplicativo.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">O aplicativo é gratuito? <span class="material-symbols-rounded">add</span></button>
+        <div class="faq-a"><p>Sim. O app do ConectBus é 100% gratuito para estudantes, responsáveis e escolas parceiras.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Como solicitar a carteirinha digital? <span class="material-symbols-rounded">add</span></button>
+        <div class="faq-a"><p>Basta criar uma conta no aplicativo com os dados escolares e enviar o comprovante de matrícula. A carteirinha é gerada automaticamente após a validação.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Como acompanho o ônibus em tempo real? <span class="material-symbols-rounded">add</span></button>
+        <div class="faq-a"><p>Na aba "Mapa" do aplicativo, é possível visualizar a localização atual do ônibus da sua linha e o tempo estimado até o seu ponto de embarque.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTATO ===================== -->
+<section class="section" id="contato">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Contato</span>
+      <h2>Fale com a equipe do ConectBus.</h2>
+      <p>Dúvidas, sugestões ou parcerias? Envie uma mensagem ou utilize um dos canais abaixo.</p>
+    </div>
+
+    <div class="contact-grid reveal">
+      <form id="contactForm">
+        <div class="field">
+          <label for="name">Nome completo</label>
+          <input id="name" type="text" placeholder="Digite seu nome" required>
+        </div>
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input id="email" type="email" placeholder="voce@exemplo.com" required>
+        </div>
+        <div class="field">
+          <label for="subject">Assunto</label>
+          <select id="subject">
+            <option>Dúvida sobre carteirinha</option>
+            <option>Sugestão de rota</option>
+            <option>Suporte ao aplicativo</option>
+            <option>Parceria com escola</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">Mensagem</label>
+          <textarea id="message" placeholder="Escreva sua mensagem..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">
+          <span class="material-symbols-rounded">send</span> Enviar mensagem
+        </button>
+        <div class="form-success" id="formSuccess">
+          <span class="material-symbols-rounded">check_circle</span> Mensagem enviada! Retornaremos em breve.
+        </div>
+      </form>
+
+      <div>
+        <div class="contact-info-item">
+          <div class="icon-tile"><span class="material-symbols-rounded">call</span></div>
+          <div><strong>Telefone</strong><p style="color:var(--ink-soft);font-size:.9rem;margin-top:4px">(22) 2733-5000</p></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="icon-tile"><span class="material-symbols-rounded">mail</span></div>
+          <div><strong>E-mail</strong><p style="color:var(--ink-soft);font-size:.9rem;margin-top:4px">contato@conectbus.campos.rj.gov.br</p></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="icon-tile"><span class="material-symbols-rounded">location_on</span></div>
+          <div><strong>Endereço</strong><p style="color:var(--ink-soft);font-size:.9rem;margin-top:4px">Prefeitura Municipal de Campos dos Goytacazes<br>Rua Marechal Floriano, 389 — Centro<br>Campos dos Goytacazes/RJ</p></div>
+        </div>
+        <div class="social-row">
+          <a href="#" class="icon-btn" aria-label="Instagram"><span class="material-symbols-rounded">photo_camera</span></a>
+          <a href="#" class="icon-btn" aria-label="Facebook"><span class="material-symbols-rounded">thumb_up</span></a>
+          <a href="#" class="icon-btn" aria-label="WhatsApp"><span class="material-symbols-rounded">chat</span></a>
+          <a href="#" class="icon-btn" aria-label="YouTube"><span class="material-symbols-rounded">play_circle</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="mark" style="width:32px;height:32px;border-radius:9px">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M4 16V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+          </span>
+          ConectBus
+        </div>
+        <p style="font-size:.88rem;line-height:1.6">Transporte escolar inteligente e seguro para estudantes de Campos dos Goytacazes.</p>
+      </div>
+      <div>
+        <h5>Navegação</h5>
+        <ul>
+          <li><a href="https://www.google.com/maps/search/escolas+em+Campos+dos+Goytacazes+RJ" target="_blank" rel="noopener">Rotas</a></li>
+          <li><a href="app.html">Aplicativo</a></li>
+          <li><a href="seguranca.html">Segurança</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Acesso</h5>
+        <ul>
+          <li><a href="login.html">Entrar</a></li>
+          <li><a href="admin.html">Painel administrativo</a></li>
+          <li><a href="index.html#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Termos de Uso</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ConectBus — Prefeitura de Campos dos Goytacazes. Todos os direitos reservados.</span>
+      <span>Feito com <span class="material-symbols-rounded" style="font-size:14px;vertical-align:-2px">favorite</span> para a educação campista.</span>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" aria-label="Voltar ao topo"><span class="material-symbols-rounded">arrow_upward</span></button>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/map.js"></script>
+<script src="js/charts.js"></script>
+<script>
+  var cadastroForm = document.getElementById('cadastroForm');
+  if (cadastroForm) {
+    cadastroForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var msg = document.getElementById('cadastroSuccess');
+      msg.classList.add('show');
+      cadastroForm.reset();
+      msg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  }
+</script>
+</body><script src="js/main.js"></script>
+<script src="js/map.js"></script>
+<script src="js/charts.js"></script>
+</html>
